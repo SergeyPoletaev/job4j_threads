@@ -48,7 +48,7 @@ public class Wget implements Runnable {
                     - url для скачивания файла;
                     - скорость скачивания в MB/s (Мбайт/с) в виде целого числаж
                     - путь до места сохранения и название файла.
-                    например: /* https://proof.ovh.net/files/10Mb.dat 1 ./10Mb.dat */
+                    например: "https://proof.ovh.net/files/10Mb.dat 1 ./10Mb.dat"
                     """);
         }
         String url = args[0];
