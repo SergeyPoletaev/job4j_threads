@@ -8,27 +8,33 @@ import java.net.URL;
 public class Wget implements Runnable {
     private final String url;
     private final int speed;
+    private final String target;
 
-    public Wget(String url, int speed) {
+    public Wget(String url, int speed, String target) {
         this.url = url;
         this.speed = speed;
+        this.target = target;
     }
 
     @Override
     public void run() {
         try (BufferedInputStream in = new BufferedInputStream(new URL(url).openStream());
-             FileOutputStream out = new FileOutputStream("pom_tmp.xml")) {
+             FileOutputStream out = new FileOutputStream(target)) {
             byte[] dataBuffer = new byte[1024];
             int readBytes;
+            int downloadData = 0;
             long start = System.nanoTime();
             while ((readBytes = in.read(dataBuffer, 0, 1024)) != -1) {
                 out.write(dataBuffer, 0, readBytes);
-                double loadingTimeInSec = (double) (System.nanoTime() - start) / 1_000_000_000;
-                double factSpeed = 1024 / loadingTimeInSec;
-                if (factSpeed > speed) {
-                    Thread.sleep((long) ((factSpeed / speed) * loadingTimeInSec - loadingTimeInSec) * 1000);
+                downloadData += readBytes;
+                if (downloadData >= speed * 1_000_000) {
+                    long time = System.nanoTime() - start;
+                    if (time < 1_000_000_000) {
+                        Thread.sleep(1000 - time / 1_000_000);
+                        downloadData = 0;
+                        start = System.nanoTime();
+                    }
                 }
-                start = System.nanoTime();
             }
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -36,16 +42,19 @@ public class Wget implements Runnable {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        if (args.length != 2) {
+        if (args.length != 3) {
             throw new IllegalArgumentException("""
                     Для корректной работы программы передайте 2 параметра:
                     - url для скачивания файла;
-                    - скорость скачивания в виде целого числа.
+                    - скорость скачивания в MB/s (Мбайт/с) в виде целого числаж
+                    - путь до места сохранения и название файла.
+                    например: https://proof.ovh.net/files/10Mb.dat 1 ./10Mb.dat
                     """);
         }
         String url = args[0];
         int speed = Integer.parseInt(args[1]);
-        Thread wget = new Thread(new Wget(url, speed));
+        String target = args[2];
+        Thread wget = new Thread(new Wget(url, speed, target));
         wget.start();
         wget.join();
     }
