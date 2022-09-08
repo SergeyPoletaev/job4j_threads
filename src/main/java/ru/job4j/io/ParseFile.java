@@ -17,12 +17,20 @@ public class ParseFile {
         try (BufferedInputStream i = new BufferedInputStream(new FileInputStream(file))) {
             StringBuilder output = new StringBuilder();
             int data;
-            while ((data = i.read()) > 0) {
+            while ((data = i.read()) != -1) {
                 if (pred.test((char) data)) {
                     output.append((char) data);
                 }
             }
             return output.toString();
         }
+    }
+
+    public String getContentWithoutUnicode() throws IOException {
+        return getContent(p -> p < 0x80);
+    }
+
+    public String getContentWithUnicode() throws IOException {
+        return getContent(p -> true);
     }
 }
