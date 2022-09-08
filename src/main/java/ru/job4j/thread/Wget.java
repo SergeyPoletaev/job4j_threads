@@ -31,9 +31,9 @@ public class Wget implements Runnable {
                     long time = System.nanoTime() - start;
                     if (time < 1_000_000_000) {
                         Thread.sleep(1000 - time / 1_000_000);
-                        downloadData = 0;
-                        start = System.nanoTime();
                     }
+                    downloadData = 0;
+                    start = System.nanoTime();
                 }
             }
         } catch (IOException | InterruptedException e) {
