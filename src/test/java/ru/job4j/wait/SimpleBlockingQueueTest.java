@@ -14,16 +14,26 @@ class SimpleBlockingQueueTest {
         SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>(2);
         List<Integer> rslList = new ArrayList<>();
         Thread producer = new Thread(() -> {
-            queue.offer(1);
-            queue.offer(3);
-            queue.offer(2);
-            queue.offer(4);
+            try {
+                queue.offer(1);
+                queue.offer(3);
+                queue.offer(2);
+                queue.offer(4);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                Thread.currentThread().interrupt();
+            }
         });
         Thread consumer = new Thread(() -> {
-            rslList.add(queue.poll());
-            rslList.add(queue.poll());
-            rslList.add(queue.poll());
-            rslList.add(queue.poll());
+            try {
+                rslList.add(queue.poll());
+                rslList.add(queue.poll());
+                rslList.add(queue.poll());
+                rslList.add(queue.poll());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                Thread.currentThread().interrupt();
+            }
         });
         producer.start();
         consumer.start();
