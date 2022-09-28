@@ -2,16 +2,13 @@ package ru.job4j.wait;
 
 public class ParallelSearch {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>(5);
-        int total = 3;
         final Thread consumer = new Thread(
                 () -> {
-                    int count = 0;
-                    while (count != total) {
+                    while (!Thread.currentThread().isInterrupted()) {
                         try {
                             System.out.println(queue.poll());
-                            count++;
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                             Thread.currentThread().interrupt();
@@ -22,16 +19,15 @@ public class ParallelSearch {
         consumer.start();
         new Thread(
                 () -> {
-                    int count = 0;
-                    while (total != count) {
+                    for (int index = 0; index != 3; index++) {
                         try {
-                            queue.offer(count);
-                            count++;
+                            queue.offer(index);
                             Thread.sleep(500);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
                     }
+                    consumer.interrupt();
                 }
         ).start();
     }
