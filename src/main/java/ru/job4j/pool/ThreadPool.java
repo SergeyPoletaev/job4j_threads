@@ -6,8 +6,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ThreadPool {
+    private final static int CAPACITY_QUEUE = 3;
     private final List<Thread> threads = new LinkedList<>();
-    private final SimpleBlockingQueue<Runnable> tasks = new SimpleBlockingQueue<>(3);
+    private final SimpleBlockingQueue<Runnable> tasks = new SimpleBlockingQueue<>(CAPACITY_QUEUE);
 
     public ThreadPool() {
         initPool();
