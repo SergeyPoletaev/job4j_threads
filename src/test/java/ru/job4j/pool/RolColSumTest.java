@@ -15,10 +15,10 @@ public class RolColSumTest {
                 {4, 5, 6},
                 {7, 8, 9}
         };
-        RolColSum.Sums[] exp = {
-                new RolColSum.Sums(6, 12),
-                new RolColSum.Sums(15, 15),
-                new RolColSum.Sums(24, 18)
+        Sums[] exp = {
+                new Sums(6, 12),
+                new Sums(15, 15),
+                new Sums(24, 18)
         };
         assertThat(RolColSum.sum(arr)).isEqualTo(exp);
     }
@@ -30,10 +30,10 @@ public class RolColSumTest {
                 {4, 5, 6},
                 {7, 8, 9}
         };
-        RolColSum.Sums[] exp = {
-                new RolColSum.Sums(6, 12),
-                new RolColSum.Sums(15, 15),
-                new RolColSum.Sums(24, 18)
+        Sums[] exp = {
+                new Sums(6, 12),
+                new Sums(15, 15),
+                new Sums(24, 18)
         };
         assertThat(RolColSum.asyncSum(arr)).isEqualTo(exp);
     }
