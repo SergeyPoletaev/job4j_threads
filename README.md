@@ -9,5 +9,6 @@
 * Низкоуровневые блокировки
 * Неблокирующие алгоритмы
 * Потокобезопасные коллекции
+* Дополнение 1
 
 [![build](https://github.com/SergeyPoletaev/job4j_threads/workflows/build/badge.svg)](https://github.com/SergeyPoletaev/job4j_threads/actions)
