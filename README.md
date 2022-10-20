@@ -10,6 +10,6 @@
 * Неблокирующие алгоритмы
 * Потокобезопасные коллекции
 * Производилась работа с ветками git
-* Проводились эксперименты
+* Проводились эксперименты + 1
 
 [![build](https://github.com/SergeyPoletaev/job4j_threads/workflows/build/badge.svg)](https://github.com/SergeyPoletaev/job4j_threads/actions)
